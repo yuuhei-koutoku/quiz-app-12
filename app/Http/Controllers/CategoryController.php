@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
@@ -17,11 +18,11 @@ class CategoryController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * カテゴリー新規登録画面表示
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
