@@ -10,11 +10,15 @@ use Illuminate\View\View;
 class CategoryController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * 管理画面トップページ 兼 カテゴリー一覧表示
      */
-    public function index()
+    public function top()
     {
-        //
+        $categories = Category::get();
+
+        return view('admin.top', [
+            'categories' => $categories
+        ]);
     }
 
     /**
