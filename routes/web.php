@@ -31,5 +31,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::prefix('categories')->name('categories.')->group(function () {
         // カテゴリー新規登録画面
         Route::get('create', [CategoryController::class, 'create'])->name('create');
+        Route::post('store', [CategoryController::class, 'store'])->name('store');
     });
 });
