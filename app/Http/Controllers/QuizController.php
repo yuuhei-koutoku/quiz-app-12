@@ -22,7 +22,7 @@ class QuizController extends Controller
      */
     public function create(Request $request, int $categoryId)
     {
-        return view('admin.categories.create', [
+        return view('admin.quizzes.create', [
             'categoryId' => $categoryId
         ]);
     }
