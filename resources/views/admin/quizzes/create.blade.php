@@ -5,7 +5,7 @@
                 <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">クイズ新規登録</h1>
             </div>
             <div class="lg:w-1/2 md:w-2/3 mx-auto">
-                <form method="POST" action="{{ route('admin.categories.store') }}" class="flex flex-wrap -m-2">
+                <form method="POST" action="{{ route('admin.categories.quizzes.store', ['categoryId' => $categoryId]) }}" class="flex flex-wrap -m-2">
                     @csrf
 
                     {{-- 問題文 --}}

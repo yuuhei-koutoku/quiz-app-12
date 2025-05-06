@@ -44,6 +44,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
         Route::prefix('{categoryId}/quizzes')->name('quizzes.')->group(function () {
             // クイズ新規登録画面
             Route::get('create', [QuizController::class, 'create'])->name('create');
+            // クイズ新規登録処理
+            Route::post('store', [QuizController::class, 'store'])->name('store');
         });
     });
 });
