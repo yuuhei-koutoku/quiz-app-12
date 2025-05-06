@@ -70,9 +70,14 @@ class CategoryController extends Controller
     /**
      * カテゴリー更新処理
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, int $categoryId)
     {
-        //
+        $category = Category::findOrFail($categoryId);
+        $category->name        = $request->name;
+        $category->description = $request->description;
+        $category->save();
+
+        return redirect()->route('admin.categories.show', ['categoryId' => $categoryId]);
     }
 
     /**
