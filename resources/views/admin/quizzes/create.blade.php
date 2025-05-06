@@ -53,8 +53,8 @@
                                     id="isCorrect{{ $i }}"
                                     name="isCorrect{{ $i }}"
                                     class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                    <option value="1">正解</option>
-                                    <option value="0">不正解</option>
+                                    <option value="1" {{ old('isCorrect' . $i) === '1' ? 'selected' : '' }}>正解</option>
+                                    <option value="0" {{ old('isCorrect' . $i) === '0' ? 'selected' : '' }}>不正解</option>
                                 </select>
                             </div>
                             {{-- 選択肢の正解・不正解のバリデーションエラーメッセージの表示 --}}
