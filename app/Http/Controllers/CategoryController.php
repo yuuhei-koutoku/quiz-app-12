@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Symfony\Component\VarDumper\Caster\RedisCaster;
 
 class CategoryController extends Controller
 {
@@ -81,10 +82,13 @@ class CategoryController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * カテゴリー削除処理
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request, int $categoryId)
     {
-        //
+        $category = Category::findOrFail($categoryId);
+        $category->delete();
+
+        return redirect()->route('admin.top');
     }
 }
