@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreQuizRequest;
 use App\Http\Requests\UpdateQuizRequest;
 use App\Models\Quiz;
+use Illuminate\Http\Request;
 
 class QuizController extends Controller
 {
@@ -17,11 +18,13 @@ class QuizController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * クイズ新規登録画面表示
      */
-    public function create()
+    public function create(Request $request, int $categoryId)
     {
-        //
+        return view('admin.categories.create', [
+            'categoryId' => $categoryId
+        ]);
     }
 
     /**
