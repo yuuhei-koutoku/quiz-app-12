@@ -84,9 +84,9 @@ class QuizController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateQuizRequest $request, Quiz $quiz)
+    public function update(UpdateQuizRequest $request, int $categoryId, int $quizId)
     {
-        //
+        dd($categoryId, $quizId, $request);
     }
 
     /**
