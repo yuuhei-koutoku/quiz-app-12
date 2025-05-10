@@ -68,11 +68,17 @@ class QuizController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * クイズ編集画面表示
      */
-    public function edit(Quiz $quiz)
+    public function edit(Request $request, int $categoryId, int $quizId)
     {
-        //
+        $quiz = Quiz::with('category', 'options')->findOrFail($quizId);
+
+        return view('admin.quizzes.edit', [
+            'category' => $quiz->category,
+            'quiz'     => $quiz,
+            'options'  => $quiz->options,
+        ]);
     }
 
     /**
