@@ -8,30 +8,14 @@
                 </div>
             </div>
             <div class="flex flex-wrap -m-4">
-                <div class="xl:w-1/4 md:w-1/2 p-4">
-                    <a href="#" class="block bg-gray-100 p-6 rounded-lg">
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">カテゴリー1</h2>
-                        <p class="leading-relaxed text-base">カテゴリー1説明文カテゴリー1説明文カテゴリー1説明文カテゴリー1説明文カテゴリー1説明文</p>
-                    </a>
-                </div>
-                <div class="xl:w-1/4 md:w-1/2 p-4">
-                    <a href="#" class="block bg-gray-100 p-6 rounded-lg">
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">カテゴリー2</h2>
-                        <p class="leading-relaxed text-base">カテゴリー2説明文カテゴリー2説明文カテゴリー2説明文カテゴリー2説明文カテゴリー2説明文</p>
-                    </a>
-                </div>
-                <div class="xl:w-1/4 md:w-1/2 p-4">
-                    <a href="#" class="block bg-gray-100 p-6 rounded-lg">
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">カテゴリー3</h2>
-                        <p class="leading-relaxed text-base">カテゴリー3説明文カテゴリー3説明文カテゴリー3説明文カテゴリー3説明文カテゴリー3説明文</p>
-                    </a>
-                </div>
-                <div class="xl:w-1/4 md:w-1/2 p-4">
-                    <a href="#" class="block bg-gray-100 p-6 rounded-lg">
-                        <h2 class="text-lg text-gray-900 font-medium title-font mb-4">カテゴリー4</h2>
-                        <p class="leading-relaxed text-base">カテゴリー4説明文カテゴリー4説明文カテゴリー4説明文カテゴリー4説明文カテゴリー4説明文</p>
-                    </a>
-                </div>
+                @foreach ($categories as $category)
+                    <div class="xl:w-1/4 md:w-1/2 p-4">
+                        <a href="#" class="block bg-gray-100 p-6 rounded-lg">
+                            <h2 class="text-lg text-gray-900 font-medium title-font mb-4">{{ $category->name }}</h2>
+                            <p class="leading-relaxed text-base">{{ $category->description }}</p>
+                        </a>
+                    </div>
+                @endforeach
             </div>
         </div>
     </section>
