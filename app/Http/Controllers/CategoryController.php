@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
-use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Symfony\Component\VarDumper\Caster\RedisCaster;
+use Illuminate\View\View;
 
 class CategoryController extends Controller
 {
@@ -19,7 +18,7 @@ class CategoryController extends Controller
         $categories = Category::get();
 
         return view('admin.top', [
-            'categories' => $categories
+            'categories' => $categories,
         ]);
     }
 
@@ -36,8 +35,8 @@ class CategoryController extends Controller
      */
     public function store(StoreCategoryRequest $request)
     {
-        $category = new Category();
-        $category->name        = $request->name;
+        $category = new Category;
+        $category->name = $request->name;
         $category->description = $request->description;
         $category->save();
 
@@ -53,7 +52,7 @@ class CategoryController extends Controller
 
         return view('admin.categories.show', [
             'category' => $category,
-            'quizzes'  => $category->quizzes,
+            'quizzes' => $category->quizzes,
         ]);
     }
 
@@ -65,7 +64,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($categoryId);
 
         return view('admin.categories.edit', [
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
@@ -75,7 +74,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, int $categoryId)
     {
         $category = Category::findOrFail($categoryId);
-        $category->name        = $request->name;
+        $category->name = $request->name;
         $category->description = $request->description;
         $category->save();
 
