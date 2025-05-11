@@ -125,10 +125,14 @@ class QuizController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * クイズ削除機能
      */
-    public function destroy(Quiz $quiz)
+    public function destroy(Request $request, int $categoryId, int $quizId)
     {
-        //
+        $quiz = Quiz::findOrFail($quizId);
+        $quiz->delete();
+
+        // カテゴリー詳細画面にリダイレクト
+        return redirect()->route('admin.categories.show', ['categoryId' => $categoryId]);
     }
 }
