@@ -24,10 +24,11 @@ class PlayController extends Controller
      */
     public function categories(Request $request, int $categoryId)
     {
-        $category = Category::findOrFail($categoryId);
+        $category = Category::withCount('quizzes')->findOrFail($categoryId);
 
         return view('play.start', [
-            'category' => $category,
+            'category'     => $category,
+            'quizzesCount' => $category->quizzes_count,
         ]);
     }
 }
