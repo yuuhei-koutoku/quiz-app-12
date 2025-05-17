@@ -46,7 +46,16 @@ class PlayController extends Controller
         $quiz = $quizzes[0];
 
         return view('play.quizzes', [
-            'quiz' => $quiz
+            'categoryId' => $categoryId,
+            'quiz'       => $quiz
         ]);
+    }
+
+    /**
+     * クイズ解答画面
+     */
+    public function answer(Request $request, int $categoryId)
+    {
+        dd($categoryId, $request);
     }
 }
