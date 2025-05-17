@@ -37,7 +37,10 @@ class PlayController extends Controller
      */
     public function quizzes(Request $request, int $categoryId)
     {
-        // ロジックは後で書く
+        // カテゴリーに紐づくクイズと選択肢を全て取得する
+        $category = Category::with('quizzes.options')->findOrFail($categoryId);
+
+
         return view('play.quizzes');
     }
 }
