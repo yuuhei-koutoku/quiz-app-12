@@ -56,6 +56,9 @@ class PlayController extends Controller
      */
     public function answer(Request $request, int $categoryId)
     {
-        dd($categoryId, $request);
+        $quizId   = $request->quizId;
+        $optionId = $request->optionId;
+
+        return view('play.answer');
     }
 }
