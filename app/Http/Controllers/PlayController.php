@@ -40,7 +40,13 @@ class PlayController extends Controller
         // カテゴリーに紐づくクイズと選択肢を全て取得する
         $category = Category::with('quizzes.options')->findOrFail($categoryId);
 
+        // クイズをランダムで選ぶ
+        $quizzes = $category->quizzes->toArray();
+        shuffle($quizzes);
+        $quiz = $quizzes[0];
 
-        return view('play.quizzes');
+        return view('play.quizzes', [
+            'quiz' => $quiz
+        ]);
     }
 }
