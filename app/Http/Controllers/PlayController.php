@@ -64,7 +64,8 @@ class PlayController extends Controller
         $quiz = $category->quizzes->firstWhere('id', $quizId);
         $quizOptions = $quiz->options->toArray();
 
-        $this->isCorrectAnswer($selectedOptions, $quizOptions);
+        $result = $this->isCorrectAnswer($selectedOptions, $quizOptions);
+        dd($result);
 
         return view('play.answer');
     }
@@ -74,6 +75,47 @@ class PlayController extends Controller
      */
     private function isCorrectAnswer(array $selectedOptions, array $quizOptions)
     {
-        dd('isCorrectAnswer', $selectedOptions, $quizOptions);
+        // クイズの選択肢から正解の選択肢を抽出し、そのidを全て取得する
+        $correctOptions = array_filter($quizOptions, function ($option) {
+            return $option['is_correct'] === 1;
+        });
+
+        // idの数字だけを抽出する
+        $correctOptionIds = array_map(function ($option) {
+            return $option['id'];
+        }, $correctOptions);
+
+        // プレイヤーが選んだ選択肢の個数と正解の選択肢の個数が一致するかを判定する
+        if (count($selectedOptions) !== count($correctOptionIds)) {
+            return false;
+        }
+
+        // プレイヤーが選んだ選択肢のid番号と正解のidが全て一致することを判定する
+        foreach ($selectedOptions as $selectedOption) {
+            if (!in_array((int)$selectedOption, $correctOptionIds)) {
+                return false;
+            }
+        }
+
+        // 正解であることを返す
+        return true;
+
+        // 自分で考えたコード
+        // // 配列の要素をintにキャストする
+        // $selectedOptions = array_map('intval', $selectedOptions);
+
+        // // クイズの選択肢から正解の選択肢を抽出し、そのidを全て取得する
+        // $correctOptions = [];
+        // foreach ($quizOptions as $quizOption) {
+        //     if ($quizOption['is_correct'] === 1) {
+        //         $correctOptions[] = $quizOption['id'];
+        //     }
+        // }
+
+        // // プレイヤーの解答と正解・不正解の情報を比較する
+        // $result = false;
+        // if ($selectedOptions === $correctOptions) $result = true;
+
+        // return $result;
     }
 }
