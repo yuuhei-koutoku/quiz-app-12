@@ -56,9 +56,24 @@ class PlayController extends Controller
      */
     public function answer(Request $request, int $categoryId)
     {
-        $quizId   = $request->quizId;
-        $optionId = $request->optionId;
+        $quizId          = $request->quizId;
+        $selectedOptions = $request->optionId;
+
+        // カテゴリーに紐づくクイズと選択肢を取得する
+        $category = Category::with('quizzes.options')->findOrFail($categoryId);
+        $quiz = $category->quizzes->firstWhere('id', $quizId);
+        $quizOptions = $quiz->options->toArray();
+
+        $this->isCorrectAnswer($selectedOptions, $quizOptions);
 
         return view('play.answer');
+    }
+
+    /**
+     * プレイヤーの解答が正解か不正解かを判定
+     */
+    private function isCorrectAnswer(array $selectedOptions, array $quizOptions)
+    {
+        dd('isCorrectAnswer', $selectedOptions, $quizOptions);
     }
 }
