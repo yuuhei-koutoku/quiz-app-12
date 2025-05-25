@@ -41,9 +41,43 @@ class PlayController extends Controller
         $category = Category::with('quizzes.options')->findOrFail($categoryId);
 
         // クイズをランダムで選ぶ
-        $quizzes = $category->quizzes->toArray();
-        shuffle($quizzes);
-        $quiz = $quizzes[0];
+        // $quizzes = $category->quizzes->toArray();
+        // shuffle($quizzes);
+        // $quiz = $quizzes[0];
+
+        // セッションに保存されているクイズIDの配列を取得
+        $resultArray = session('resultArray');
+        // 初回アクセス時はセッションに保存されたクイズIDの配列がないため、クイズIDの配列を作成
+        if (is_null($resultArray)) {
+            // クイズIDを全て抽出する
+            $quizIds = $category->quizzes->pluck('id')->toArray();
+
+            // クイズIDの配列をランダムに入れ返す
+            shuffle($quizIds);
+
+            $resultArray = [];
+            foreach ($quizIds as $quizId) {
+                $resultArray[] = [
+                    'quizId' => $quizId,
+                    'result' => null,
+                ];
+            };
+
+            // クイズIDの配列をセッションに保存
+            session(['resultArray' => $resultArray]);
+        }
+
+        // $resultArrayの中で、resultがnullのもののうち、最初のデータを選ぶ
+        $noAnswerResult = collect($resultArray)->filter(function ($item) {
+            return $item['result'] === null;
+        })->first();
+
+        if (!$noAnswerResult) {
+            dd('未回答のクイズはなくなりました');
+        }
+
+        // クイズIDに紐づくクイズを取得
+        $quiz = $category->quizzes->firstWhere('id', $noAnswerResult['quizId'])->toArray();
 
         return view('play.quizzes', [
             'categoryId' => $categoryId,
