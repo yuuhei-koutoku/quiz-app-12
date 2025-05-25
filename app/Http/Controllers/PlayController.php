@@ -76,7 +76,8 @@ class PlayController extends Controller
         })->first();
 
         if (!$noAnswerResult) {
-            dd('未回答のクイズはなくなりました');
+            // 全てのクイズに解答済みの場合は、リザルト画面にリダイレクト
+            return redirect()->route('categories.quizzes.result', ['categoryId' => $categoryId]);
         }
 
         // クイズIDに紐づくクイズを取得
@@ -121,6 +122,14 @@ class PlayController extends Controller
             'selectedOptions' => $selectedOptions,
             'isCorrectAnswer' => $isCorrectAnswer,
         ]);
+    }
+
+    /**
+     * リザルト画面表示
+     */
+    public function result(Request $request, int $categoryId)
+    {
+        dd($categoryId, $request);
     }
 
     /**
