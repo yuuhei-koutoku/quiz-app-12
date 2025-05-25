@@ -24,6 +24,9 @@ class PlayController extends Controller
      */
     public function categories(Request $request, int $categoryId)
     {
+        // セッションの削除
+        session()->forget('resultArray');
+
         $category = Category::withCount('quizzes')->findOrFail($categoryId);
 
         return view('play.start', [
@@ -99,6 +102,17 @@ class PlayController extends Controller
         $quizOptions = $quiz->options->toArray();
 
         $isCorrectAnswer = $this->isCorrectAnswer($selectedOptions, $quizOptions);
+
+        // セッションからクイズIDと解答情報を取得
+        $resultArray = session('resultArray');
+        foreach ($resultArray as $index => $result) {
+            if ($result['quizId'] === (int)$quizId) {
+                $resultArray[$index]['result'] = $isCorrectAnswer;
+                break;
+            }
+        }
+        // 解答結果をセッションに保存（上書き）する
+        session(['resultArray' => $resultArray]);
 
         return view('play.answer', [
             'categoryId'      => $categoryId,
