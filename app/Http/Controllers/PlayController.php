@@ -129,7 +129,18 @@ class PlayController extends Controller
      */
     public function result(Request $request, int $categoryId)
     {
-        dd($categoryId, $request);
+        // セッションからクイズIDと解答情報を取得
+        $resultArray = session('resultArray');
+        $questionCount = count($resultArray);
+        $correctCount = collect($resultArray)->filter(function ($result) {
+            return $result['result'] === true;
+        })->count();
+        // dd($categoryId, $questionCount, $correctCount);
+        return view('play.result', [
+            'categoryId'    => $categoryId,
+            'questionCount' => $questionCount,
+            'correctCount'  => $correctCount,
+        ]);
     }
 
     /**
