@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\QuizController;
 use App\Http\Controllers\PlayController;
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 
 // プレイヤー画面
@@ -19,7 +19,7 @@ Route::prefix('categories/{categoryId}')->name('categories.')->group(function ()
 });
 
 // 管理者の認証機能
-require __DIR__ . '/auth.php';
+require __DIR__.'/auth.php';
 
 // 管理画面
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {

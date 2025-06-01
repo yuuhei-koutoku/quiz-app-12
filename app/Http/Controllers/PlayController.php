@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Http\Request;
 
 class PlayController extends Controller
 {
@@ -30,7 +30,7 @@ class PlayController extends Controller
         $category = Category::withCount('quizzes')->findOrFail($categoryId);
 
         return view('play.start', [
-            'category'     => $category,
+            'category' => $category,
             'quizzesCount' => $category->quizzes_count,
         ]);
     }
@@ -58,7 +58,7 @@ class PlayController extends Controller
             return $item['result'] === null;
         })->first();
 
-        if (!$noAnswerResult) {
+        if (! $noAnswerResult) {
             // 全てのクイズに解答済みの場合は、リザルト画面にリダイレクト
             return redirect()->route('categories.quizzes.result', ['categoryId' => $categoryId]);
         }
@@ -68,7 +68,7 @@ class PlayController extends Controller
 
         return view('play.quizzes', [
             'categoryId' => $categoryId,
-            'quiz'       => $quiz
+            'quiz' => $quiz,
         ]);
     }
 
@@ -77,7 +77,7 @@ class PlayController extends Controller
      */
     public function answer(Request $request, int $categoryId)
     {
-        $quizId          = $request->quizId;
+        $quizId = $request->quizId;
         $selectedOptions = $request->optionId === null ? [] : $request->optionId;
 
         // カテゴリーに紐づくクイズと選択肢を取得する
@@ -90,7 +90,7 @@ class PlayController extends Controller
         // セッションからクイズIDと解答情報を取得
         $resultArray = session('resultArray');
         foreach ($resultArray as $index => $result) {
-            if ($result['quizId'] === (int)$quizId) {
+            if ($result['quizId'] === (int) $quizId) {
                 $resultArray[$index]['result'] = $isCorrectAnswer;
                 break;
             }
@@ -99,9 +99,9 @@ class PlayController extends Controller
         session(['resultArray' => $resultArray]);
 
         return view('play.answer', [
-            'categoryId'      => $categoryId,
-            'quiz'            => $quiz->toArray(),
-            'quizOptions'     => $quizOptions,
+            'categoryId' => $categoryId,
+            'quiz' => $quiz->toArray(),
+            'quizOptions' => $quizOptions,
             'selectedOptions' => $selectedOptions,
             'isCorrectAnswer' => $isCorrectAnswer,
         ]);
@@ -120,9 +120,9 @@ class PlayController extends Controller
         })->count();
 
         return view('play.result', [
-            'categoryId'    => $categoryId,
+            'categoryId' => $categoryId,
             'questionCount' => $questionCount,
-            'correctCount'  => $correctCount,
+            'correctCount' => $correctCount,
         ]);
     }
 
@@ -143,7 +143,7 @@ class PlayController extends Controller
                 'quizId' => $quizId,
                 'result' => null,
             ];
-        };
+        }
 
         return $resultArray;
     }
@@ -170,7 +170,7 @@ class PlayController extends Controller
 
         // プレイヤーが選んだ選択肢のid番号と正解のidが全て一致することを判定する
         foreach ($selectedOptions as $selectedOption) {
-            if (!in_array((int)$selectedOption, $correctOptionIds)) {
+            if (! in_array((int) $selectedOption, $correctOptionIds)) {
                 return false;
             }
         }
