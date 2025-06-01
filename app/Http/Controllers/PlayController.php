@@ -43,28 +43,11 @@ class PlayController extends Controller
         // カテゴリーに紐づくクイズと選択肢を全て取得する
         $category = Category::with('quizzes.options')->findOrFail($categoryId);
 
-        // クイズをランダムで選ぶ
-        // $quizzes = $category->quizzes->toArray();
-        // shuffle($quizzes);
-        // $quiz = $quizzes[0];
-
         // セッションに保存されているクイズIDの配列を取得
         $resultArray = session('resultArray');
         // 初回アクセス時はセッションに保存されたクイズIDの配列がないため、クイズIDの配列を作成
         if (is_null($resultArray)) {
-            // クイズIDを全て抽出する
-            $quizIds = $category->quizzes->pluck('id')->toArray();
-
-            // クイズIDの配列をランダムに入れ返す
-            shuffle($quizIds);
-
-            $resultArray = [];
-            foreach ($quizIds as $quizId) {
-                $resultArray[] = [
-                    'quizId' => $quizId,
-                    'result' => null,
-                ];
-            };
+            $resultArray = $this->setResultArrayForSession($category);
 
             // クイズIDの配列をセッションに保存
             session(['resultArray' => $resultArray]);
@@ -135,12 +118,34 @@ class PlayController extends Controller
         $correctCount = collect($resultArray)->filter(function ($result) {
             return $result['result'] === true;
         })->count();
-        // dd($categoryId, $questionCount, $correctCount);
+
         return view('play.result', [
             'categoryId'    => $categoryId,
             'questionCount' => $questionCount,
             'correctCount'  => $correctCount,
         ]);
+    }
+
+    /**
+     * 初回の時に、セッションにクイズのIDと解答状況を保存する
+     */
+    private function setResultArrayForSession(Category $category)
+    {
+        // クイズIDを全て抽出する
+        $quizIds = $category->quizzes->pluck('id')->toArray();
+
+        // クイズIDの配列をランダムに入れ返す
+        shuffle($quizIds);
+
+        $resultArray = [];
+        foreach ($quizIds as $quizId) {
+            $resultArray[] = [
+                'quizId' => $quizId,
+                'result' => null,
+            ];
+        };
+
+        return $resultArray;
     }
 
     /**
